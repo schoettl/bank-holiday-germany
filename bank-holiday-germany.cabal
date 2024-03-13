@@ -1,0 +1,59 @@
+cabal-version:       3.8
+
+name:                bank-holiday-germany
+version:             1.0.0.0
+synopsis:            German bank holidays and public holidays
+description:         Calculation of bank holidays and most public holidays in Germany.
+homepage:            https://github.com/schoettl/bank-holiday-germany#readme
+license:             MIT
+license-file:        LICENSE
+author:              Jakob Schöttl
+maintainer:          jakob.schoettl@intensovet.de
+copyright:           2024 Jakob Schöttl
+category:            Time
+build-type:          Simple
+extra-source-files:  README.md
+                     CHANGELOG.md
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Data.Time.Calendar.BankHoliday.Germany
+  build-depends:       base >= 4.7 && < 5
+                     , time < 2
+  default-language:    GHC2021
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wmissing-export-lists
+                       -Wmissing-home-modules
+                       -Wpartial-fields
+                       -Wredundant-constraints
+
+test-suite tests
+  main-is:             Main.hs
+  other-modules:       Data.Time.Calendar.BankHoliday.Germany
+  hs-source-dirs:      test
+                     , src
+  build-depends:       base >= 4.7 && < 5
+                     , bank-holiday-germany
+                     , time
+                     , hspec
+                     , hspec-hedgehog
+                     , hedgehog
+                     , doctest
+  default-language:    GHC2021
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wmissing-export-lists
+                       -Wmissing-home-modules
+                       -Wpartial-fields
+                       -Wredundant-constraints
+
+source-repository head
+  type:     git
+  location: https://github.com/schoettl/bank-holiday-germany
