@@ -1,4 +1,4 @@
-cabal-version:       3.8
+cabal-version:       3.6
 
 name:                bank-holiday-germany
 version:             1.0.0.0
@@ -32,6 +32,7 @@ library
                        -Wredundant-constraints
 
 test-suite tests
+  type:                exitcode-stdio-1.0
   main-is:             Main.hs
   other-modules:       Data.Time.Calendar.BankHoliday.Germany
   hs-source-dirs:      test
