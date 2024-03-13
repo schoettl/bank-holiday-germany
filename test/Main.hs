@@ -47,6 +47,14 @@ main = do
         y <- forAll $ Gen.integral (Range.linear 0 10000)
         (calculateEasterSunday y >= day y 3 22) === True
         (calculateEasterSunday y <= day y 4 25) === True
+      it "is correct for some years" $ do
+        calculateEasterSunday 2024 `shouldBe` day 2024 3 31
+        calculateEasterSunday 2025 `shouldBe` day 2025 4 20
+        calculateEasterSunday 2026 `shouldBe` day 2026 4 5
+      it "is always a Sunday" $ hedgehog $ do
+        y <- forAll $ Gen.integral (Range.linear 0 5000)
+        let (_, _, d) = toWeekDate $ calculateEasterSunday y
+        d === 7  -- 7 = Sunday
     describe "isPublicHoliday" $ do
       it "is False only for Chrismas Eve and New Year's Eve" $
         length (filter (not . isPublicHoliday) [minBound..maxBound])
