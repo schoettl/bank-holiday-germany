@@ -19,7 +19,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Data.Time.Calendar.BankHoliday.Germany
   build-depends:       base >= 4.7 && < 5
-                     , time < 2
+                     , time >= 1.12.2 && < 1.13
   default-language:    GHC2021
   ghc-options:         -Wall
                        -Wcompat
@@ -37,13 +37,13 @@ test-suite tests
   other-modules:       Data.Time.Calendar.BankHoliday.Germany
   hs-source-dirs:      test
                      , src
-  build-depends:       base >= 4.7 && < 5
+  build-depends:       base
                      , bank-holiday-germany
-                     , time
-                     , hspec
-                     , hspec-hedgehog
-                     , hedgehog
-                     , doctest
+                     , time >= 1.12.2 && < 1.13
+                     , doctest >= 0.22.2 && < 0.23
+                     , hedgehog >= 1.4 && < 1.5
+                     , hspec >= 2.11.7 && < 2.12
+                     , hspec-hedgehog >= 0.1.0 && < 0.2
   default-language:    GHC2021
   ghc-options:         -Wall
                        -Wcompat
