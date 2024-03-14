@@ -19,7 +19,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Data.Time.Calendar.BankHoliday.Germany
   build-depends:       base >= 4.7 && < 5
-                     , time >= 1.12.2 && < 1.13
+                     , time >= 1.12.2 && < 1.14
   default-language:    GHC2021
   ghc-options:         -Wall
                        -Wcompat
