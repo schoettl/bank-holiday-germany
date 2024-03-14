@@ -33,17 +33,17 @@ import Data.Maybe
 -- Note: This type cannot be an instance of class 'Ord' because due to
 -- Easter day calculation the order can change from year to year.
 data BankHoliday
-    = NewYearsDay
-    | GoodFriday   -- ^ Karfreitag
-    | EasterMonday
-    | LabourDay
-    | AscensionDay -- ^ Christi Himmelfahrt
-    | WhitMonday   -- ^ Pfingstmontag
-    | GermanUnityDay
-    | ChristmasEve
-    | ChristmasDay
-    | SecondChristmasDay
-    | NewYearsEve
+    = NewYearsDay        -- ^ Neujahrstag
+    | GoodFriday         -- ^ Karfreitag
+    | EasterMonday       -- ^ Ostermontag
+    | LabourDay          -- ^ Tag der Arbeit
+    | AscensionDay       -- ^ Christi Himmelfahrt
+    | WhitMonday         -- ^ Pfingstmontag
+    | GermanUnityDay     -- ^ Tag der Deutschen Einheit
+    | ChristmasEve       -- ^ Heilig Abend
+    | ChristmasDay       -- ^ 1. Weihnachtsfeiertag
+    | SecondChristmasDay -- ^ 1. Weihnachtsfeiertag
+    | NewYearsEve        -- ^ Silvestertag
     deriving (Enum, Eq, Bounded, Show, Read)
 
 
