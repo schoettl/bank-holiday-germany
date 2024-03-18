@@ -18,6 +18,7 @@ extra-source-files:  README.md
 library
   hs-source-dirs:      src
   exposed-modules:     Data.Time.Calendar.BankHoliday.Germany
+                     , Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays
   build-depends:       base >= 4.7 && < 5
                      , time >= 1.12.2 && < 1.14
   default-language:    GHC2021
@@ -35,6 +36,7 @@ test-suite tests
   type:                exitcode-stdio-1.0
   main-is:             Main.hs
   other-modules:       Data.Time.Calendar.BankHoliday.Germany
+                     , Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays
   hs-source-dirs:      test
                      , src
   build-depends:       base

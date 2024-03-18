@@ -8,9 +8,11 @@ throughout Germany. You can use 'isPublicHoliday' to check if a
 holiday is also a legal holiday.
 
 Note: There are even more public holidays in each federal state which
-are not covered by this module.
+are (partly) covered by the 'ExtraHolidays' module of this package.
 
-https://de.wikipedia.org/wiki/Bankfeiertag
+Resources:
+
+ - https://de.wikipedia.org/wiki/Bankfeiertag
 
 -}
 
@@ -22,9 +24,11 @@ module Data.Time.Calendar.BankHoliday.Germany (
     holidaysBetween,
     fromDay,
     toDay,
-    germanHolidayName
+    germanHolidayName,
+    yearFromDay
 ) where
 
+import Prelude
 import Data.Time.Calendar
 import Data.Maybe
 
