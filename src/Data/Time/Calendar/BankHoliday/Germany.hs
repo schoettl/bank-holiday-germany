@@ -32,7 +32,7 @@ import Prelude
 import Data.Time.Calendar
 import Data.Maybe
 
--- | Data type specifying German bank holidays.
+-- | Data type specifying German bank holidays including Christmas Eve and New Year's Eve.
 --
 -- Note: This type cannot be an instance of class 'Ord' because due to
 -- Easter day calculation the order can change from year to year.
