@@ -72,6 +72,11 @@ main = do
      describe "FederalState" $
        it "has right number of states" $
          length [minBound .. maxBound :: EH.FederalState] `shouldBe` 16
+     describe "toDay" $
+       it "works for Fronleichnam (depending on Easter Sunday)" $ do
+         -- https://www.arbeitstage.org/feiertage/fronleichnam/
+         map (\y -> show $ EH.toDay y EH.Fronleichnam) [2024..2027]
+           `shouldBe` ["2024-05-30", "2025-06-19", "2026-06-04", "2027-05-27"]
      describe "holidaysBetween" $ do
        it "only has Bavaria's extra holidays" $
          map snd (EH.holidaysBetween EH.Bayern (day 2024 11 1) (day 2024 12 31))
