@@ -1,12 +1,12 @@
 
 {-|
 
-This module provides additional German public holidays not covered by
-the [bank holidays](Data.Time.Calendar.BankHoliday.Germany).
+This module provides additional German public holidays that are not
+covered by the [bank holidays](Data.Time.Calendar.BankHoliday.Germany).
 
 Public holidays – except for
 'Data.Time.Calendar.BankHoliday.Germany.GermanUnityDay' – are under
-federal obligations ("Ländersache") in Germany.
+federal obligations in Germany („Ländersache“).
 
 Most bank holidays are also federal public holidays
 (see 'Data.Time.Calendar.BankHoliday.Germany.isPublicHoliday').
@@ -16,7 +16,7 @@ federal states.
 For example Heilige Drei Könige is not a bank holiday but it is a
 public holiday in Bavaria.
 
-Note: Currently only implemented for Bavaria.
+Note: The extra holidays are currently only implemented for Bavaria.
 
 Example for computing all public holidays in Bavaria (Landkreis
 Miesbach, Oberbayern) in the next couple years:
@@ -33,12 +33,12 @@ Miesbach, Oberbayern) in the next couple years:
 
   holidays :: [[String]]
   holidays = map (\(x,y) -> [show x, BH.germanHolidayName y]) (filter (BH.isPublicHoliday . snd) $ BH.holidaysBetween start end)
-          ++ map (\(x,y) -> [show x, EH.germanHolidayName y]) (filter ((/=EH.Friedensfest) . snd) $ EH.holidaysBetween Bayern start end)
+          ++ map (\(x,y) -> [show x, EH.germanHolidayName y]) (filter ((/=EH.Friedensfest) . snd) $ EH.holidaysBetween EH.Bayern start end)
 
   putStrLn $ unlines $ sort $ map unwords holidays
 @
 
-Sources:
+Resources:
 
  - Bayern: https://www.stmi.bayern.de/suv/feiertage/
 
@@ -79,10 +79,11 @@ data FederalState
   | Thueringen
   deriving (Enum, Eq, Bounded, Show, Read)
 
--- | Extra federal holidays, no overlap with 'BankHoliday'.
+-- | Extra federal holidays, no overlap with
+-- 'Data.Time.Calendar.BankHoliday.Germany.BankHoliday'.
 -- Spezielle Feiertage der Bundesländer.
 --
--- Note: Currently only Bavaria's extra holidays are implemented.
+-- Note: Currently, only Bavaria's extra holidays are implemented.
 data ExtraHoliday
   = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, …)
   | Fronleichnam           -- ^ Fronleichnam (Bayern, …)

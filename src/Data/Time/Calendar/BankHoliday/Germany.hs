@@ -8,7 +8,8 @@ throughout Germany. You can use 'isPublicHoliday' to check if a
 holiday is also a legal holiday.
 
 Note: There are even more public holidays in each federal state which
-are (partly) covered by the 'ExtraHolidays' module of this package.
+are covered by the [@ExtraHolidays@](Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays)
+module of this package.
 
 Resources:
 
@@ -45,8 +46,8 @@ data BankHoliday
     | WhitMonday         -- ^ Pfingstmontag
     | GermanUnityDay     -- ^ Tag der Deutschen Einheit
     | ChristmasEve       -- ^ Heilig Abend
-    | ChristmasDay       -- ^ 1. Weihnachtsfeiertag
-    | SecondChristmasDay -- ^ 1. Weihnachtsfeiertag
+    | ChristmasDay       -- ^ 1​. Weihnachtsfeiertag
+    | SecondChristmasDay -- ^ 2​. Weihnachtsfeiertag
     | NewYearsEve        -- ^ Silvestertag
     deriving (Enum, Eq, Bounded, Show, Read)
 
