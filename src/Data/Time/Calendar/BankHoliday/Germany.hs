@@ -8,7 +8,7 @@ throughout Germany. You can use 'isPublicHoliday' to check if a
 holiday is also a legal holiday.
 
 Note: There are even more public holidays in each federal state which
-are covered by the [@ExtraHolidays@](Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays)
+are covered by the [@ExtraHolidays@]("Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays")
 module of this package.
 
 Resources:
