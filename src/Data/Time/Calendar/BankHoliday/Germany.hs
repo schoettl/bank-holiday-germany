@@ -11,6 +11,20 @@ Note: There are even more public holidays in each federal state which
 are covered by the [@ExtraHolidays@]("Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays")
 module of this package.
 
+You can test this package or just calculate a few bank holidays with GHCi:
+
+@
+$ stack ghci --package time --package bank-holiday-germany
+ghci> import Data.Time
+ghci> import Data.Time.Calendar.BankHoliday.Germany
+ghci> isBankHoliday (fromGregorian 2024 5 1)  -- Tag der Arbeit
+True
+ghci> isPublicHoliday ChristmasEve
+False
+ghci> holidaysBetween (fromGregorian 2024 12 1) (fromGregorian 2024 12 26)
+[(2024-12-24,ChristmasEve),(2024-12-25,ChristmasDay),(2024-12-26,SecondChristmasDay)]
+@
+
 Resources:
 
  - https://de.wikipedia.org/wiki/Bankfeiertag
@@ -106,6 +120,11 @@ toDay year NewYearsEve        = fromGregorian year 12 31
 
 -- | Compute 'Maybe' the holiday for a given date.
 --
+-- Note: In some years, two bank holidays can fall on the same
+-- day. E.g. 'LabourDay' and 'AscensionDay' in 2008 are both on
+-- 2008-05-01. In such cases this function returns the bank holiday
+-- that is defined first in the 'BankHoliday' 'Enum'.
+--
 -- >>> fromDay (fromGregorian 2024 1 1)
 -- Just NewYearsDay
 --
@@ -115,6 +134,10 @@ fromDay :: Day -> Maybe BankHoliday
 fromDay day = listToMaybe $ filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBound]
 
 -- | Compute pairs of date and holiday from start to end.
+--
+-- Note: In some years, two bank holidays can fall on the same
+-- day. In such cases only one of them is in the resulting list.
+-- See 'fromDay' for more information.
 --
 -- >>> map snd $ holidaysBetween (fromGregorian 2024 12 25) (fromGregorian 2024 12 26)
 -- [ChristmasDay,SecondChristmasDay]

@@ -2,7 +2,7 @@
 {-|
 
 This module provides additional German public holidays that are not
-covered by the [bank holidays](Data.Time.Calendar.BankHoliday.Germany).
+covered by the [bank holidays]("Data.Time.Calendar.BankHoliday.Germany").
 
 Public holidays – except for
 'Data.Time.Calendar.BankHoliday.Germany.GermanUnityDay' – are under
@@ -13,7 +13,7 @@ Most bank holidays are also federal public holidays
 But there are some additional extra holidays which may differ between
 federal states.
 
-For example Heilige Drei Könige is not a bank holiday but it is a
+For example, Heilige Drei Könige is not a bank holiday but it is a
 public holiday in Bavaria.
 
 Note: The extra holidays are currently only implemented for Bavaria.
@@ -22,24 +22,57 @@ Example for computing all public holidays in Bavaria (Landkreis
 Miesbach, Oberbayern) in the next couple years:
 
 @
-  import Data.List
-  import Data.Time
-  import qualified Data.Time.Calendar.BankHoliday.Germany as BH
-  import qualified Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays as EH
+import Prelude
+import Data.List
+import Data.Time
+import qualified Data.Time.Calendar.BankHoliday.Germany as BH
+import qualified Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays as EH
 
-  start = fromGregorian 2024 1 1
+start = fromGregorian 2024 1 1
 
-  end = fromGregorian 2026 12 31
+end = fromGregorian 2025 12 31
 
-  holidays :: [[String]]
-  holidays = map (\(x,y) -> [show x, BH.germanHolidayName y]) (filter (BH.isPublicHoliday . snd) $ BH.holidaysBetween start end)
-          ++ map (\(x,y) -> [show x, EH.germanHolidayName y]) (filter ((/=EH.Friedensfest) . snd) $ EH.holidaysBetween EH.Bayern start end)
+holidays :: [[String]]
+holidays = map (\(x,y) -> [show x, BH.germanHolidayName y]) (filter (BH.isPublicHoliday . snd) $ BH.holidaysBetween start end)
+        ++ map (\(x,y) -> [show x, EH.germanHolidayName y]) (filter ((/= EH.Friedensfest) . snd) $ EH.holidaysBetween EH.Bayern start end)
 
-  putStrLn $ unlines $ sort $ map unwords holidays
+main :: IO ()
+main = putStrLn $ unlines $ sort $ map unwords holidays
+@
+
+@
+2024-01-01 Neujahrstag
+2024-01-06 Heilige Drei Könige
+2024-03-29 Karfreitag
+2024-04-01 Ostermontag
+2024-05-01 Tag der Arbeit
+2024-05-09 Christi Himmelfahrt
+2024-05-20 Pfingstmontag
+2024-05-30 Fronleichnam
+2024-08-15 Mariä Himmelfahrt
+2024-10-03 Tag der Deutschen Einheit
+2024-11-01 Allerheiligen
+2024-12-25 1. Weihnachtsfeiertag
+2024-12-26 2. Weihnachtsfeiertag
+2025-01-01 Neujahrstag
+2025-01-06 Heilige Drei Könige
+2025-04-18 Karfreitag
+2025-04-21 Ostermontag
+2025-05-01 Tag der Arbeit
+2025-05-29 Christi Himmelfahrt
+2025-06-09 Pfingstmontag
+2025-06-19 Fronleichnam
+2025-08-15 Mariä Himmelfahrt
+2025-10-03 Tag der Deutschen Einheit
+2025-11-01 Allerheiligen
+2025-12-25 1. Weihnachtsfeiertag
+2025-12-26 2. Weihnachtsfeiertag
 @
 
 Resources:
 
+ - Übersicht: https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
+ - Weitere Übersicht: https://www.arbeitstage.org/
  - Bayern: https://www.stmi.bayern.de/suv/feiertage/
 
 -}

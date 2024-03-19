@@ -15,7 +15,9 @@ are not legal holidays as well are generally only off for bank employees.
 There are even more public holidays in each federal state which
 are (partly) covered by the `ExtraHolidays` module of this package.
 
-See the module documentation for more information.
+See the [module documentation](https://hackage.haskell.org/package/bank-holiday-germany)
+on Hackage for more information.
+
 
 -----
 
