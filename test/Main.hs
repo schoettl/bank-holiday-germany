@@ -2,6 +2,7 @@
 module Main (main) where
 
 import Data.Time.Calendar.BankHoliday.Germany
+import Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays (ExtraHoliday(..), FederalState(..))
 import Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays qualified as EH
 import Data.Time.Calendar.WeekDate
 import Data.Time
@@ -71,17 +72,20 @@ main = do
    describe "Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays" $ do
      describe "FederalState" $
        it "has right number of states" $
-         length [minBound .. maxBound :: EH.FederalState] `shouldBe` 16
+         length [minBound .. maxBound :: FederalState] `shouldBe` 16
      describe "toDay" $
        it "works for Fronleichnam (depending on Easter Sunday)" $ do
          -- https://www.arbeitstage.org/feiertage/fronleichnam/
-         map (\y -> show $ EH.toDay y EH.Fronleichnam) [2024..2027]
+         map (\y -> show $ EH.toDay y Fronleichnam) [2024..2027]
            `shouldBe` ["2024-05-30", "2025-06-19", "2026-06-04", "2027-05-27"]
      describe "holidaysBetween" $ do
        it "only has Bavaria's extra holidays" $
-         map snd (EH.holidaysBetween EH.Bayern (day 2024 11 1) (day 2024 12 31))
-           `shouldBe` [EH.Allerheiligen]
+         map snd (EH.holidaysBetween Bayern (day 2024 11 1) (day 2024 12 31))
+           `shouldBe` [Allerheiligen]
+       it "there is only one extra holiday in Berlin" $ do
+         filter (EH.isHolidayInState Berlin) [minBound..maxBound]
+           `shouldBe` [InternationalerFrauentag]
        it "has no holidays for other states yet => otherwise, please add tests" $ do
-         let statesExceptBavaria = filter (/=EH.Bayern) [minBound..maxBound]
+         let statesExceptBavaria = filter (not . flip elem [Bayern, Berlin]) [minBound..maxBound]
          let holidays = concatMap (\x -> EH.holidaysBetween x (day 2024 1 1) (day 2024 12 31)) statesExceptBavaria
          holidays `shouldBe` []

@@ -123,6 +123,7 @@ data ExtraHoliday
   | Friedensfest           -- ^ Friedensfest (Bayern (Augsburg), …)
   | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern (regional), …)
   | Allerheiligen          -- ^ Allerheiligen (Bayern, …)
+  | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, …)
   deriving (Enum, Eq, Bounded, Show, Read)
 
 -- | Compute the date for a given year and extra holiday.
@@ -135,6 +136,7 @@ toDay year Fronleichnam            = addDays 60 $ calculateEasterSunday year
 toDay year Friedensfest            = fromGregorian year 8 8
 toDay year MariaeHimmelfahrt       = fromGregorian year 8 15
 toDay year Allerheiligen           = fromGregorian year 11 1
+toDay year InternationalerFrauentag = fromGregorian year 3 8
 
 -- | Compute 'Maybe' the holiday for a given date.
 --
@@ -161,6 +163,7 @@ germanHolidayName d = case d of
   Friedensfest           -> "Friedensfest"
   MariaeHimmelfahrt      -> "Mariä Himmelfahrt"
   Allerheiligen          -> "Allerheiligen"
+  InternationalerFrauentag -> "Internationaler Frauentag"
 
 -- | Check if 'ExtraHoliday' is a holiday in the given federal state.
 --
@@ -175,4 +178,5 @@ isHolidayInState Bayern Fronleichnam = True
 isHolidayInState Bayern Friedensfest = True
 isHolidayInState Bayern MariaeHimmelfahrt = True
 isHolidayInState Bayern Allerheiligen = True
+isHolidayInState Berlin InternationalerFrauentag = True
 isHolidayInState _ _ = False
