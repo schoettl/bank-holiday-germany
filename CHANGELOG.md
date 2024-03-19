@@ -22,3 +22,10 @@ Initial release
 - Export `dayToYear` helper function since it is also used by the new module
 - Add tests
 - Enhance docs
+
+## [1.1.0.0] - 2024-03-19
+
+### Added
+
+- Add `ExtraHoliday` for Bundesland Berlin
+- Add and enhance docs
