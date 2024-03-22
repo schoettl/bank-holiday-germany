@@ -16,6 +16,12 @@ import Test.DocTest
 day :: Year -> Int -> Int -> Day
 day = fromGregorian
 
+jan1 :: Year -> Day
+jan1 y = fromGregorian y 1 1
+
+dec31 :: Year -> Day
+dec31 y = fromGregorian y 12 31
+
 year :: Day -> Year
 year = (\(y, _, _) -> y) . toGregorian
 
@@ -33,7 +39,7 @@ main = do
           `shouldBe` []
       it "counts 11 bank holidays and 9 public holidays per year (2010 to 2020)" $ hedgehog $ do
         y <- forAll $ Gen.integral (Range.linear 2010 2020)
-        let bankHolidays = holidaysBetween (day y 1 1) (day y 12 31)
+        let bankHolidays = holidaysBetween ((jan1 y)) ((dec31 y))
         length bankHolidays === 11
         length (filter (isPublicHoliday . snd) bankHolidays) === 9
     describe "toDay" $ do
@@ -79,13 +85,26 @@ main = do
          map (\y -> show $ EH.toDay y Fronleichnam) [2024..2027]
            `shouldBe` ["2024-05-30", "2025-06-19", "2026-06-04", "2027-05-27"]
      describe "holidaysBetween" $ do
-       it "only has Bavaria's extra holidays" $
+       it "yields Bavaria's extra holidays" $
          map snd (EH.holidaysBetween Bayern (day 2024 11 1) (day 2024 12 31))
            `shouldBe` [Allerheiligen]
        it "there is only one extra holiday in Berlin" $ do
          filter (EH.isHolidayInState Berlin) [minBound..maxBound]
            `shouldBe` [InternationalerFrauentag]
+       it "there are 3 extra holidays in Baden-Württemberg" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         length (EH.holidaysBetween BadenWuerttemberg ((jan1 y)) ((dec31 y))) === 3
+       it "there are 2 extra holidays in Nordrhein-Westfalen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         length (EH.holidaysBetween NordrheinWestfalen ((jan1 y)) ((dec31 y))) === 2
+       it "there is only 1 extra holiday in Niedersachsen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         length (EH.holidaysBetween Niedersachsen (jan1 y) (dec31 y)) === 1
+       it "there is only Fronleichnam in Hessen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween Hessen (jan1 y) (dec31 y)) === [Fronleichnam]
        it "has no holidays for other states yet => otherwise, please add tests" $ do
-         let statesExceptBavaria = filter (not . flip elem [Bayern, Berlin]) [minBound..maxBound]
+         let statesExceptBavaria = filter (not . (`elem` [BadenWuerttemberg, Bayern, Berlin, NordrheinWestfalen, Niedersachsen, Hessen])) [minBound .. maxBound :: FederalState]
          let holidays = concatMap (\x -> EH.holidaysBetween x (day 2024 1 1) (day 2024 12 31)) statesExceptBavaria
          holidays `shouldBe` []
+       -- TODO: add test for germanHolidayName that uses random holidays to detect non-exhaustive patterns

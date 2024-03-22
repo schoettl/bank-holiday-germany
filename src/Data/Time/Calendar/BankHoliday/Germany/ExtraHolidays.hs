@@ -16,7 +16,9 @@ federal states.
 For example, Heilige Drei Könige is not a bank holiday but it is a
 public holiday in Bavaria.
 
-Note: The extra holidays are currently only implemented for Bavaria.
+Note: The extra holidays are currently only implemented for
+Baden-Württemberg, Bayern, Berlin, Niedersachsen, Hessen, and
+Nordrhein-Westfalen.
 
 Example for computing all public holidays in Bavaria (Landkreis
 Miesbach, Oberbayern) in the next couple years:
@@ -74,6 +76,9 @@ Resources:
  - Übersicht: https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
  - Weitere Übersicht: https://www.arbeitstage.org/
  - Bayern: https://www.stmi.bayern.de/suv/feiertage/
+ - Baden-Württemberg: https://im.baden-wuerttemberg.de/de/service/feiertage
+ - Niedersachsen: https://service.niedersachsen.de/portaldeeplink/?tsa_leistung_id=8664664&tsa_sprache=de_DE
+ - Hessen: https://innen.hessen.de/buerger-staat/feiertage
 
 -}
 
@@ -112,17 +117,21 @@ data FederalState
   | Thueringen
   deriving (Enum, Eq, Bounded, Show, Read)
 
+-- TODO: Remove note below when all federal states are fully implemented.
+
 -- | Extra federal holidays, no overlap with
 -- 'Data.Time.Calendar.BankHoliday.Germany.BankHoliday'.
 -- Spezielle Feiertage der Bundesländer.
 --
--- Note: Currently, only Bavaria's extra holidays are implemented.
+-- Note: Currently, only some federal states' extra holidays are implemented.
+-- See module description above for details.
 data ExtraHoliday
-  = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, …)
-  | Fronleichnam           -- ^ Fronleichnam (Bayern, …)
+  = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, …)
+  | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, …)
   | Friedensfest           -- ^ Friedensfest (Bayern (Augsburg), …)
   | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern (regional), …)
-  | Allerheiligen          -- ^ Allerheiligen (Bayern, …)
+  | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, …)
+  | Reformationstag        -- ^ Reformationstag (Niedersachsen, …)
   | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, …)
   deriving (Enum, Eq, Bounded, Show, Read)
 
@@ -137,8 +146,13 @@ toDay year Friedensfest            = fromGregorian year 8 8
 toDay year MariaeHimmelfahrt       = fromGregorian year 8 15
 toDay year Allerheiligen           = fromGregorian year 11 1
 toDay year InternationalerFrauentag = fromGregorian year 3 8
+toDay year Reformationstag          = fromGregorian year 10 31
 
 -- | Compute 'Maybe' the holiday for a given date.
+--
+-- Note: In some years, two extra holidays may fall on the same
+-- day. In such cases this function returns the holiday
+-- that is defined first in the 'ExtraHoliday' 'Enum'.
 --
 -- >>> fromDay (fromGregorian 2024 11 1)
 -- Just Allerheiligen
@@ -148,7 +162,7 @@ toDay year InternationalerFrauentag = fromGregorian year 3 8
 fromDay :: Day -> Maybe ExtraHoliday
 fromDay day = listToMaybe $ filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBound]
 
--- | Compute pairs of date and holiday from start to end for the given federal state.
+-- | Compute pairs of date and holiday from start to end (inclusive) for the given federal state.
 --
 -- >>> map snd $ holidaysBetween Bayern (fromGregorian 2024 8 8) (fromGregorian 2024 8 15)
 -- [Friedensfest,MariaeHimmelfahrt]
@@ -163,6 +177,7 @@ germanHolidayName d = case d of
   Friedensfest           -> "Friedensfest"
   MariaeHimmelfahrt      -> "Mariä Himmelfahrt"
   Allerheiligen          -> "Allerheiligen"
+  Reformationstag          -> "Reformationstag"
   InternationalerFrauentag -> "Internationaler Frauentag"
 
 -- | Check if 'ExtraHoliday' is a holiday in the given federal state.
@@ -173,10 +188,17 @@ germanHolidayName d = case d of
 -- >>> isHolidayInState Berlin Allerheiligen
 -- False
 isHolidayInState :: FederalState -> ExtraHoliday -> Bool
+isHolidayInState BadenWuerttemberg HeiligeDreiKoenige = True
+isHolidayInState BadenWuerttemberg Fronleichnam = True
+isHolidayInState BadenWuerttemberg Allerheiligen = True
 isHolidayInState Bayern HeiligeDreiKoenige = True
 isHolidayInState Bayern Fronleichnam = True
 isHolidayInState Bayern Friedensfest = True
 isHolidayInState Bayern MariaeHimmelfahrt = True
 isHolidayInState Bayern Allerheiligen = True
 isHolidayInState Berlin InternationalerFrauentag = True
+isHolidayInState NordrheinWestfalen Fronleichnam = True
+isHolidayInState NordrheinWestfalen Allerheiligen = True
+isHolidayInState Niedersachsen Reformationstag = True
+isHolidayInState Hessen Fronleichnam = True
 isHolidayInState _ _ = False

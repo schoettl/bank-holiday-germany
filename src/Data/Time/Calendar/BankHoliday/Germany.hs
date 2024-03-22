@@ -133,7 +133,7 @@ toDay year NewYearsEve        = fromGregorian year 12 31
 fromDay :: Day -> Maybe BankHoliday
 fromDay day = listToMaybe $ filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBound]
 
--- | Compute pairs of date and holiday from start to end.
+-- | Compute pairs of date and holiday from start to end (inclusive).
 --
 -- Note: In some years, two bank holidays can fall on the same
 -- day. In such cases only one of them is in the resulting list.
