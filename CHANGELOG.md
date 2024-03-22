@@ -29,3 +29,11 @@ Initial release
 
 - Add `ExtraHoliday` for Bundesland Berlin
 - Add and enhance docs
+
+## [1.2.0.0] - 2024-03-22
+
+### Added
+
+- Add extra holidays for Baden-Württemberg, Nordrhein-Westfalen,
+  Hessen, and Niedersachsen
+- Update doc
