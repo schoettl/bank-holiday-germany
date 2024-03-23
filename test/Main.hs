@@ -74,6 +74,9 @@ main = do
         m <- forAll $ Gen.integral (Range.linear 1 12)
         d <- forAll $ Gen.integral (Range.linear 1 28)
         yearFromDay (day y m d) === y
+    describe "germanHolidayName" $
+      it "names are longer than 5 characters for all holidays (which mean there are no non-exhaustive patterns)" $
+        all ((>5) . length . germanHolidayName) [minBound .. maxBound :: BankHoliday] `shouldBe` True
 
    describe "Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays" $ do
      describe "FederalState" $
@@ -107,4 +110,6 @@ main = do
          let statesExceptBavaria = filter (not . (`elem` [BadenWuerttemberg, Bayern, Berlin, NordrheinWestfalen, Niedersachsen, Hessen])) [minBound .. maxBound :: FederalState]
          let holidays = concatMap (\x -> EH.holidaysBetween x (day 2024 1 1) (day 2024 12 31)) statesExceptBavaria
          holidays `shouldBe` []
-       -- TODO: add test for germanHolidayName that uses random holidays to detect non-exhaustive patterns
+     describe "germanHolidayName" $
+       it "names are longer than 5 characters for all holidays (which mean there are no non-exhaustive patterns)" $
+         all ((>5) . length . EH.germanHolidayName) [minBound .. maxBound :: ExtraHoliday] `shouldBe` True
