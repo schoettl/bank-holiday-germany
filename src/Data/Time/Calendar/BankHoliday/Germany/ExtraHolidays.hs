@@ -30,7 +30,7 @@ import Data.Time
 import qualified Data.Time.Calendar.BankHoliday.Germany as BH
 import qualified Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays as EH
 
-start = fromGregorian 2024 1 1
+start = fromGregorian 2025 1 1
 
 end = fromGregorian 2025 12 31
 
@@ -43,19 +43,6 @@ main = putStrLn $ unlines $ sort $ map unwords holidays
 @
 
 @
-2024-01-01 Neujahrstag
-2024-01-06 Heilige Drei Könige
-2024-03-29 Karfreitag
-2024-04-01 Ostermontag
-2024-05-01 Tag der Arbeit
-2024-05-09 Christi Himmelfahrt
-2024-05-20 Pfingstmontag
-2024-05-30 Fronleichnam
-2024-08-15 Mariä Himmelfahrt
-2024-10-03 Tag der Deutschen Einheit
-2024-11-01 Allerheiligen
-2024-12-25 1. Weihnachtsfeiertag
-2024-12-26 2. Weihnachtsfeiertag
 2025-01-01 Neujahrstag
 2025-01-06 Heilige Drei Könige
 2025-04-18 Karfreitag
@@ -125,11 +112,13 @@ data FederalState
 --
 -- Note: Currently, only some federal states' extra holidays are implemented.
 -- See module description above for details.
+--
+-- \*regional holiday, only applies in parts of the federal state
 data ExtraHoliday
   = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, …)
   | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, …)
-  | Friedensfest           -- ^ Friedensfest (Bayern (Augsburg), …)
-  | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern (regional), …)
+  | Friedensfest           -- ^ Friedensfest (Bayern*, …)
+  | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern*, …)
   | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, …)
   | Reformationstag        -- ^ Reformationstag (Niedersachsen, …)
   | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, …)
