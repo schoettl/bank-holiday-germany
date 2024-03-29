@@ -39,7 +39,7 @@ Bundesland für das sie gelten).
 Gesetzliche Feiertage der Bundesländer, die nicht gleichzeitig
 Bankfeiertage sind, sind im Modul `ExtraHolidays` definiert.
 
-Vorsicht: Manche gesetzliche Feiertage gelten nicht für das ganze
+Vorsicht: Manche gesetzliche Feiertage gelten nicht für ein ganzes
 Bundesland sondern nur für bestimmte Landkreise, z.B. das Friedensfest
 in Augsburg.
 

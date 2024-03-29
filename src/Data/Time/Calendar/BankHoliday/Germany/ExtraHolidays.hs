@@ -20,8 +20,8 @@ Note: The extra holidays are currently only implemented for
 Baden-Württemberg, Bayern, Berlin, Niedersachsen, Hessen, and
 Nordrhein-Westfalen.
 
-Example for computing all public holidays in Bavaria (Landkreis
-Miesbach, Oberbayern) in the next couple years:
+The example prints all public holidays in Bavaria (Landkreis
+Miesbach, Oberbayern) in 2025:
 
 @
 import Prelude
