@@ -13,7 +13,7 @@ Legal holidays are generally off for all employees. Bank holidays that
 are not legal holidays are generally only off for bank employees.
 
 There are even more public holidays in each federal state which
-are (partly) covered by the `ExtraHolidays` module of this package.
+are covered by the `ExtraHolidays` module of this package.
 
 See the [module documentation](https://hackage.haskell.org/package/bank-holiday-germany)
 on Hackage for more information.
@@ -69,16 +69,8 @@ holidays year state = map fst (filter (BH.isPublicHoliday . snd) $ BH.holidaysBe
     end = fromGregorian year 12 31
 
 
--- supported 2024-03-23
 supportedFederalStates :: [FederalState]
-supportedFederalStates =
-  [ BadenWuerttemberg
-  , Bayern
-  , Berlin
-  , Niedersachsen
-  , Hessen
-  , NordrheinWestfalen
-  ]
+supportedFederalStates = [minBound .. maxBound]
 
 year :: Year
 year = 2024
@@ -99,11 +91,21 @@ main = putStrLn
 ```
 $ stack script --resolver=lts-22.0 --package time --package bank-holiday-germany test.hs
 14  Bayern
- 9  BadenWuerttemberg
- 9  Berlin
- 9  Niedersachsen
- 9  Hessen
- 9  NordrheinWestfalen
+12  BadenWuerttemberg
+12  Saarland
+11  MecklenburgVorpommern
+11  NordrheinWestfalen
+11  RheinlandPfalz
+11  Sachsen
+11  SachsenAnhalt
+11  Thueringen
+10  Berlin
+10  Brandenburg
+10  Bremen
+10  Hamburg
+10  Hessen
+10  Niedersachsen
+10  SchleswigHolstein
 ```
 
 More examples:

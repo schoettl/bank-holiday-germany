@@ -16,10 +16,6 @@ federal states.
 For example, Heilige Drei Könige is not a bank holiday but it is a
 public holiday in Bavaria.
 
-Note: The extra holidays are currently only implemented for
-Baden-Württemberg, Bayern, Berlin, Niedersachsen, Hessen, and
-Nordrhein-Westfalen.
-
 The example prints all public holidays in Bavaria (Landkreis
 Miesbach, Oberbayern) in 2025:
 
@@ -60,12 +56,24 @@ main = putStrLn $ unlines $ sort $ map unwords holidays
 
 Resources:
 
+Extra holidays are implemented for all 16 federal states. For some
+states, we couldn't find official sources; That's why this list
+only includes some states.
+
  - Übersicht: https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
  - Weitere Übersicht: https://www.arbeitstage.org/
  - Bayern: https://www.stmi.bayern.de/suv/feiertage/
  - Baden-Württemberg: https://im.baden-wuerttemberg.de/de/service/feiertage
  - Niedersachsen: https://service.niedersachsen.de/portaldeeplink/?tsa_leistung_id=8664664&tsa_sprache=de_DE
  - Hessen: https://innen.hessen.de/buerger-staat/feiertage
+ - Rheinland-Pfalz: https://mdi.rlp.de/themen/buerger-und-staat/verfassung-und-verwaltung/sonn-und-feiertagsrecht
+ - Brandenburg: https://bravors.brandenburg.de/gesetze/ftg_2003/6
+ - Sachsen-Anhalt: https://www.landesrecht.sachsen-anhalt.de/bsst/document/jlr-FeiertGSTrahmen/part/X
+ - Thüringen: https://buerger.thueringen.de/detail?pstId=354718
+ - Hamburg: https://www.hamburg.de/ferien-und-feiertage/
+ - Mecklenburg-Vorpommern u. Berlin (Frauentag): https://www.deutsche-rentenversicherung.de/DRV/DE/Ueber-uns-und-Presse/Presse/Meldungen/2024/240306_frauentag_feiertag_frei.html
+ - Saarland: https://www.saarland.de/mibs/DE/themen-aufgaben/aufgaben/buerger_und_staat/sonn_u_feiertagsrecht/feiertagsrecht_node.html
+ - Bremen: https://www.transparenz.bremen.de/metainformationen/gesetz-ueber-die-sonn-gedenk-und-feiertage-vom-12-november-1954-145882?asl=bremen203_tpgesetz.c.55340.de&template=20_gp_ifg_meta_detail_d
 
 -}
 
@@ -104,24 +112,20 @@ data FederalState
   | Thueringen
   deriving (Enum, Eq, Bounded, Show, Read)
 
--- TODO: Remove note below when all federal states are fully implemented.
-
 -- | Extra federal holidays, no overlap with
 -- 'Data.Time.Calendar.BankHoliday.Germany.BankHoliday'.
 -- Spezielle Feiertage der Bundesländer.
 --
--- Note: Currently, only some federal states' extra holidays are implemented.
--- See module description above for details.
---
 -- \*regional holiday, only applies in parts of the federal state
 data ExtraHoliday
-  = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, …)
-  | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, …)
-  | Friedensfest           -- ^ Friedensfest (Bayern*, …)
-  | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern*, …)
-  | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, …)
-  | Reformationstag        -- ^ Reformationstag (Niedersachsen, …)
-  | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, …)
+  = HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, Sachsen-Anhalt)
+  | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, Rheinland-Pfalz, Thüringen*, Saarland)
+  | Friedensfest           -- ^ Friedensfest (Bayern*)
+  | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern*, Saarland)
+  | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland)
+  | Reformationstag        -- ^ Reformationstag (Niedersachsen, Sachsen, Schleswig-Holstein, Brandenburg, Sachsen-Anhalt, Thüringen, Hamburg, Mecklenburg-Vorpommern, Bremen)
+  | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, Mecklenburg-Vorpommern)
+  | BussUndBettag          -- ^ Buß- und Bettag (Sachsen)
   deriving (Enum, Eq, Bounded, Show, Read)
 
 -- | Compute the date for a given year and extra holiday.
@@ -136,6 +140,7 @@ toDay year MariaeHimmelfahrt       = fromGregorian year 8 15
 toDay year Allerheiligen           = fromGregorian year 11 1
 toDay year InternationalerFrauentag = fromGregorian year 3 8
 toDay year Reformationstag          = fromGregorian year 10 31
+toDay year BussUndBettag           = fromGregorian year 11 20 -- TODO: mittwoch vor letztem sonntag des kirchenjahres (1,5 wochen vor 1. advent)
 
 -- | Compute 'Maybe' the holiday for a given date.
 --
@@ -168,8 +173,14 @@ germanHolidayName d = case d of
   Allerheiligen          -> "Allerheiligen"
   Reformationstag          -> "Reformationstag"
   InternationalerFrauentag -> "Internationaler Frauentag"
+  BussUndBettag            -> "Buß- und Bettag"
 
 -- | Check if 'ExtraHoliday' is a holiday in the given federal state.
+--
+-- Note: Internationaler Frauentag is a holiday in Berlin (since 2019)
+-- and Mecklenburg-Vorpommern (since 2023).
+-- However this function doesn't take the year into account and hence
+-- is incorrect for earlier years.
 --
 -- >>> isHolidayInState Bayern Allerheiligen
 -- True
@@ -190,4 +201,21 @@ isHolidayInState NordrheinWestfalen Fronleichnam = True
 isHolidayInState NordrheinWestfalen Allerheiligen = True
 isHolidayInState Niedersachsen Reformationstag = True
 isHolidayInState Hessen Fronleichnam = True
+isHolidayInState RheinlandPfalz Allerheiligen = True
+isHolidayInState RheinlandPfalz Fronleichnam = True
+isHolidayInState Sachsen Reformationstag = True
+isHolidayInState Sachsen BussUndBettag = True
+isHolidayInState SchleswigHolstein Reformationstag = True
+isHolidayInState Brandenburg Reformationstag = True
+isHolidayInState SachsenAnhalt HeiligeDreiKoenige = True
+isHolidayInState SachsenAnhalt Reformationstag = True
+isHolidayInState Thueringen Fronleichnam = True
+isHolidayInState Thueringen Reformationstag = True
+isHolidayInState Hamburg Reformationstag = True
+isHolidayInState MecklenburgVorpommern Reformationstag = True
+isHolidayInState MecklenburgVorpommern InternationalerFrauentag = True
+isHolidayInState Saarland Fronleichnam = True
+isHolidayInState Saarland Allerheiligen = True
+isHolidayInState Saarland MariaeHimmelfahrt = True
+isHolidayInState Bremen Reformationstag = True
 isHolidayInState _ _ = False

@@ -106,10 +106,41 @@ main = do
        it "there is only Fronleichnam in Hessen" $ hedgehog $ do
          y <- forAll $ Gen.integral (Range.linear 2024 5000)
          (map snd $ EH.holidaysBetween Hessen (jan1 y) (dec31 y)) === [Fronleichnam]
-       it "has no holidays for other states yet => otherwise, please add tests" $ do
-         let statesExceptBavaria = filter (not . (`elem` [BadenWuerttemberg, Bayern, Berlin, NordrheinWestfalen, Niedersachsen, Hessen])) [minBound .. maxBound :: FederalState]
-         let holidays = concatMap (\x -> EH.holidaysBetween x (day 2024 1 1) (day 2024 12 31)) statesExceptBavaria
-         holidays `shouldBe` []
+       it "has holidays for Rheinland-Pfalz" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween RheinlandPfalz (jan1 y) (dec31 y)) === [Fronleichnam, Allerheiligen]
+       it "has holidays for Sachsen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween Sachsen (jan1 y) (dec31 y)) === [Reformationstag, BussUndBettag]
+       it "has holidays for Schleswig-Holstein" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween SchleswigHolstein (jan1 y) (dec31 y)) === [Reformationstag]
+       it "has holidays for Brandenburg" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween Brandenburg (jan1 y) (dec31 y)) === [Reformationstag]
+       it "has holidays for Sachsen-Anhalt" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween SachsenAnhalt (jan1 y) (dec31 y)) === [HeiligeDreiKoenige, Reformationstag]
+       it "has holidays for Thüringen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween Thueringen (jan1 y) (dec31 y)) === [Fronleichnam, Reformationstag]
+       it "has holidays for Hamburg" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2024 5000)
+         (map snd $ EH.holidaysBetween Hamburg (jan1 y) (dec31 y)) === [Reformationstag]
+       it "has holidays for Mecklenburg-Vorpommern" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2023 5000)
+         (map snd $ EH.holidaysBetween MecklenburgVorpommern (jan1 y) (dec31 y)) === [InternationalerFrauentag, Reformationstag]
+       it "has holidays for Saarland" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2023 5000)
+         (map snd $ EH.holidaysBetween Saarland (jan1 y) (dec31 y)) === [Fronleichnam, MariaeHimmelfahrt, Allerheiligen]
+       it "has holidays for Bremen" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 2023 5000)
+         (map snd $ EH.holidaysBetween Bremen (jan1 y) (dec31 y)) === [Reformationstag]
+       it "computes Buss- und Bettag correctly" $ do
+         EH.toDay 2024 BussUndBettag `shouldBe` day 2024 11 20
+         EH.toDay 2025 BussUndBettag `shouldBe` day 2025 11 19
+         EH.toDay 2026 BussUndBettag `shouldBe` day 2026 11 18
+         EH.toDay 2033 BussUndBettag `shouldBe` day 2033 11 16
      describe "germanHolidayName" $
        it "names are longer than 5 characters for all holidays (which mean there are no non-exhaustive patterns)" $
          all ((>5) . length . EH.germanHolidayName) [minBound .. maxBound :: ExtraHoliday] `shouldBe` True
