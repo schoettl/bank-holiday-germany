@@ -10,7 +10,7 @@ throughout Germany. You can use `isPublicHoliday` to check if a
 holiday is also a legal holiday.
 
 Legal holidays are generally off for all employees. Bank holidays that
-are not legal holidays as well are generally only off for bank employees.
+are not legal holidays are generally only off for bank employees.
 
 There are even more public holidays in each federal state which
 are (partly) covered by the `ExtraHolidays` module of this package.
@@ -30,7 +30,7 @@ ein Bankfeiertag auch ein gesetzlicher Feiertag ist.
 
 Gesetzliche Feiertage sind Ländersache – abgesehen vom
 [Nationalfeiertag](https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html)
-*Tag der deutschen Einheit*.
+*Tag der Deutschen Einheit*.
 
 Bankfeiertage sind in der Regel für Bankangestellte frei.
 Gesetzliche Feiertage sind in der Regel für alle Angestellten frei (im
