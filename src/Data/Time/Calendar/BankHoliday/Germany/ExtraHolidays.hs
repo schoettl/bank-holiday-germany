@@ -140,7 +140,7 @@ toDay year MariaeHimmelfahrt       = fromGregorian year 8 15
 toDay year Allerheiligen           = fromGregorian year 11 1
 toDay year InternationalerFrauentag = fromGregorian year 3 8
 toDay year Reformationstag          = fromGregorian year 10 31
-toDay year BussUndBettag           = fromGregorian year 11 20 -- TODO: mittwoch vor letztem sonntag des kirchenjahres (1,5 wochen vor 1. advent)
+toDay year BussUndBettag           = calculateBussUndBettag year
 
 -- | Compute 'Maybe' the holiday for a given date.
 --
@@ -219,3 +219,14 @@ isHolidayInState Saarland Allerheiligen = True
 isHolidayInState Saarland MariaeHimmelfahrt = True
 isHolidayInState Bremen Reformationstag = True
 isHolidayInState _ _ = False
+
+-- | Calculate Buß- und Bettag.
+--
+-- https://de.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
+calculateBussUndBettag :: Year -> Day
+calculateBussUndBettag year =
+   let november23 = fromGregorian year 11 23
+       weekDay = dayOfWeek november23
+    in if weekDay <= Wednesday
+         then addDays (toInteger $ fromEnum Wednesday - fromEnum weekDay - 7) november23
+         else addDays (toInteger $ fromEnum Wednesday - fromEnum weekDay) november23

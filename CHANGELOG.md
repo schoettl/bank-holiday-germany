@@ -37,3 +37,10 @@ Initial release
 - Add extra holidays for Baden-Württemberg, Nordrhein-Westfalen,
   Hessen, and Niedersachsen
 - Update doc
+
+## [1.3.0.0] - 2024-04-01
+
+### Added
+
+- Add extra holidays for all remaining federal states.
+- Update doc

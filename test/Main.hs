@@ -136,11 +136,16 @@ main = do
        it "has holidays for Bremen" $ hedgehog $ do
          y <- forAll $ Gen.integral (Range.linear 2023 5000)
          (map snd $ EH.holidaysBetween Bremen (jan1 y) (dec31 y)) === [Reformationstag]
-       it "computes Buss- und Bettag correctly" $ do
+       it "computes Buss- und Bettag correctly for some years" $ do
          EH.toDay 2024 BussUndBettag `shouldBe` day 2024 11 20
          EH.toDay 2025 BussUndBettag `shouldBe` day 2025 11 19
          EH.toDay 2026 BussUndBettag `shouldBe` day 2026 11 18
          EH.toDay 2033 BussUndBettag `shouldBe` day 2033 11 16
+       it "Buss- und Bettag is always between 16. and 22. November (inclusive)" $ hedgehog $ do
+         y <- forAll $ Gen.integral (Range.linear 0 5000)
+         let (_, m, d) = toGregorian $ EH.toDay y BussUndBettag
+         (d >= 16 && d <= 22) === True
+         m === 11
      describe "germanHolidayName" $
        it "names are longer than 5 characters for all holidays (which mean there are no non-exhaustive patterns)" $
          all ((>5) . length . EH.germanHolidayName) [minBound .. maxBound :: ExtraHoliday] `shouldBe` True
