@@ -5,15 +5,15 @@
 This package provides calculation of bank holidays and public holidays
 in Germany.
 
-Most of these bank holidays are also public aka legal holidays
+Most bank holidays are also public aka legal holidays
 throughout Germany. You can use `isPublicHoliday` to check if a
-holiday is also a legal holiday.
-
-Legal holidays are generally off for all employees. Bank holidays that
-are not legal holidays are generally only off for bank employees.
+bank holiday is also a public holiday.
 
 There are even more public holidays in each federal state which
 are covered by the `ExtraHolidays` module of this package.
+
+Public holidays are generally off for all employees. Bank holidays that
+are not public holidays are generally only off for bank employees.
 
 See the [module documentation](https://hackage.haskell.org/package/bank-holiday-germany)
 on Hackage for more information.
@@ -28,23 +28,22 @@ gleichzeitig gesetzliche Feiertage in allen Bundesländern der
 Bundesrepublik Deutschland. Die Funktion `isPublicHoliday` prüft ob
 ein Bankfeiertag auch ein gesetzlicher Feiertag ist.
 
-Gesetzliche Feiertage sind Ländersache – abgesehen vom
-[Nationalfeiertag](https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html)
-*Tag der Deutschen Einheit*.
+Darüber hinaus gibt es je nach Bundesland weitere gesetzliche Feiertage.
+Diese finden sich im Modul `ExtraHolidays`.
+**Für alle 16 Bundesländer sind damit die jeweiligen Feiertage
+vollständig implementiert (Stand 2024-03-31).**
 
 Bankfeiertage sind in der Regel für Bankangestellte frei.
 Gesetzliche Feiertage sind in der Regel für alle Angestellten frei (im
 Bundesland für das sie gelten).
 
-Gesetzliche Feiertage der Bundesländer, die nicht gleichzeitig
-Bankfeiertage sind, sind im Modul `ExtraHolidays` definiert.
-
-**Für alle 16 Bundesländer sind damit die jeweiligen Feiertage
-vollständig implementiert (Stand 2024-03-31).**
-
 Vorsicht: Manche gesetzliche Feiertage gelten nicht für ein ganzes
 Bundesland sondern nur für bestimmte Landkreise, z.B. das Friedensfest
 in Augsburg.
+
+Gesetzliche Feiertage sind übrigens Ländersache – abgesehen vom
+[Nationalfeiertag](https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html)
+*Tag der Deutschen Einheit*.
 
 Ein Code-Beispiel im Modul `ExtraHolidays` zeigt, wie alle Feiertage
 für ein bestimmtes Bundesland berechnet werden können.
