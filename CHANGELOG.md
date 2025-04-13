@@ -23,7 +23,7 @@ Breaking changes due to extensive refactoring!
   the same day in future.
 - Combined modules `Data.Time.Calendar.BankHoliday.Germany`
   and `Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays`
-  into `Data.Time.Calendar.Holiday.Germany`.
+  into `Data.Holiday.Germany`.
 - Combined types `BankHoliday` and `ExtraHoliday` into new type `Holiday`.
 - Adapted all functions for new types.
 

@@ -44,7 +44,7 @@ Gesetzliche Feiertage sind übrigens Ländersache – abgesehen vom
 [Nationalfeiertag](https://www.bmi.bund.de/DE/themen/verfassung/staatliche-symbole/nationale-feiertage/nationale-feiertage-node.html)
 *Tag der Deutschen Einheit*.
 
-## Rewrite to version 2
+## A rewrite to version 2
 
 Sorry for the incompatible changes introduced by the rewrite to version 2.
 The rational for the big refactoring was to simplify the library's
@@ -56,7 +56,7 @@ The following functions haven't changed semantically:
 
 ```haskell
 toDay :: Year -> Holiday -> Day
-fromDay :: Day -> Maybe Holiday
+fromDay :: Day -> [Holiday]
 holidaysBetween :: Day -> Day -> [(Day, Holiday)]
 germanHolidayName :: Holiday -> String
 ```
@@ -77,6 +77,9 @@ Changes:
 
 - `isPublicHoliday` has been renamed to `isGermanPublicHoliday`.
 - `isBankHoliday` now takes a `Holiday` instead of a `Day`.
+- The namespace changed from `Data.Time.Calendar.BankHoliday.Germany`
+  to `Data.Holiday.Germany`.
+- `fromDay` now returns a list of holidays instead of a `Maybe`.
 
 ### Why didn't you get the design right in the first place?
 
@@ -93,7 +96,8 @@ holidays. The library evolved and over time we added support for
 public holidays and federal holidays. That was when the library's
 interface got complicated.
 
-The module path is a bit long and clumsy but it still seems accurate.
+The module path was long, clumsy and inaccurate because it wasn't only
+about bank holidays anymore.
 
 ### Why the mix of english function names and german type constructors?
 
@@ -118,7 +122,7 @@ Rank federal states by number of holidays:
 import Prelude
 import Data.List
 import Data.Time
-import Data.Time.Calendar.Holiday.Germany
+import Data.Holiday.Germany
 
 holidays :: Year -> FederalState -> [(Day, Holiday)]
 holidays year state = filter (isFederalPublicHoliday state . snd) $ holidaysBetween start end
@@ -167,7 +171,7 @@ $ stack runghc --package time test2.hs
 
 More examples:
 
-- [Holidays](https://hackage.haskell.org/package/bank-holiday-germany/docs/Data-Time-Calendar-BankHoliday-Germany.html)
+- [Holidays](https://hackage.haskell.org/package/bank-holiday-germany/docs/Data-Holiday-Germany.html)
 
 ## Sample code for version 1
 

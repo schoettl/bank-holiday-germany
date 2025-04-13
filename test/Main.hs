@@ -1,7 +1,7 @@
 
 module Main (main) where
 
-import Data.Time.Calendar.Holiday.Germany
+import Data.Holiday.Germany
 import Data.Time.Calendar.WeekDate
 import Data.Time
 

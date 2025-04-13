@@ -14,7 +14,7 @@ You can test this package or just calculate a few holidays with GHCi:
 @
 $ stack ghci --package time --package bank-holiday-germany
 ghci> import Data.Time
-ghci> import Data.Time.Calendar.Holiday.Germany
+ghci> import Data.Holiday.Germany
 ghci> fromDay (fromGregorian 2024 5 1)  -- Tag der Arbeit
 [ErsterMai]
 ghci> isBankHoliday Heiligabend
@@ -25,9 +25,8 @@ ghci> holidaysBetween (fromGregorian 2024 12 1) (fromGregorian 2024 12 26)
 [(2024-12-24,Heiligabend),(2024-12-25,ErsterWeihnachtsfeiertag),(2024-12-26,ZweiterWeihnachtsfeiertag)]
 @
 
-Public holidays – except for
-'Data.Time.Calendar.Holiday.Germany.GermanUnityDay' – are under
-federal obligations in Germany („Ländersache“).
+Public holidays – except for 'Data.Holiday.Germany.TagDerDeutschenEinheit' –
+are under federal obligations in Germany („Ländersache“).
 
 Most bank holidays are also federal public holidays and vice versa.
 But there are some additional holidays which may differ between
@@ -42,7 +41,7 @@ Miesbach, Oberbayern) in 2025:
 @
 import Prelude
 import Data.Time
-import Data.Time.Calendar.Holiday.Germany
+import Data.Holiday.Germany
 
 start = fromGregorian 2025 1 1
 
@@ -79,7 +78,7 @@ only includes some states.
  - Bremen: https://www.transparenz.bremen.de/metainformationen/gesetz-ueber-die-sonn-gedenk-und-feiertage-vom-12-november-1954-145882?asl=bremen203_tpgesetz.c.55340.de&template=20_gp_ifg_meta_detail_d
 -}
 
-module Data.Time.Calendar.Holiday.Germany (
+module Data.Holiday.Germany (
     Holiday(..),
     FederalState(..),
     isBankHoliday,
