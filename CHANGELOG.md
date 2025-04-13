@@ -15,6 +15,9 @@ Breaking changes due to extensive refactoring!
 
 ### Changed
 
+- Renamed all type constructors to their German names,
+  e.g. `Heiligabend` instead of `ChristmasEve`. This was changed to be
+  consistent with the former `ExtraHoliday` type.
 - Changed `fromDay` to return a `[a]` instead of `Maybe a` because
   there might be different holidays from different federal states on
   the same day in future.

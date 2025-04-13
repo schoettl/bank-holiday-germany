@@ -1,51 +1,64 @@
 
 {-|
-Description: Calculation of bank holidays in Germany.
+Description: Calculation of bank holidays and public holidays for Germany.
 
-This module computes general bank holidays.
-Most of these bank holidays are also public aka legal holidays
-throughout Germany. You can use 'isPublicHoliday' to check if a
-holiday is also a legal holiday.
+This module computes bank holidays and public holidays for Germany and
+its federal states.
 
-Note: There are even more public holidays in each federal state which
-are covered by this module.
+Use 'isBankHoliday' to check if a holiday is also a bank holiday.
+Use 'isGermanPublicHoliday' and 'isFederalPublicHoliday' to check if a
+holiday is also a public holiday.
 
-You can test this package or just calculate a few bank holidays with GHCi:
+You can test this package or just calculate a few holidays with GHCi:
 
 @
 $ stack ghci --package time --package bank-holiday-germany
 ghci> import Data.Time
-ghci> import Data.Time.Calendar.BankHoliday.Germany
-ghci> isBankHoliday (fromGregorian 2024 5 1)  -- Tag der Arbeit
+ghci> import Data.Time.Calendar.Holiday.Germany
+ghci> fromDay (fromGregorian 2024 5 1)  -- Tag der Arbeit
+[ErsterMai]
+ghci> isBankHoliday Heiligabend
 True
-ghci> isPublicHoliday ChristmasEve
+ghci> isGermanPublicHoliday Heiligabend
 False
 ghci> holidaysBetween (fromGregorian 2024 12 1) (fromGregorian 2024 12 26)
-[(2024-12-24,ChristmasEve),(2024-12-25,ChristmasDay),(2024-12-26,SecondChristmasDay)]
+[(2024-12-24,Heiligabend),(2024-12-25,ErsterWeihnachtsfeiertag),(2024-12-26,ZweiterWeihnachtsfeiertag)]
 @
 
-This module provides additional German public holidays that are not
-covered by the [bank holidays]("Data.Time.Calendar.BankHoliday.Germany").
-
 Public holidays – except for
-'Data.Time.Calendar.BankHoliday.Germany.GermanUnityDay' – are under
+'Data.Time.Calendar.Holiday.Germany.GermanUnityDay' – are under
 federal obligations in Germany („Ländersache“).
 
-Most bank holidays are also federal public holidays
-(see 'Data.Time.Calendar.BankHoliday.Germany.isPublicHoliday').
-But there are some additional extra holidays which may differ between
+Most bank holidays are also federal public holidays and vice versa.
+But there are some additional holidays which may differ between
 federal states.
 
 For example, Heilige Drei Könige is not a bank holiday but it is a
 public holiday in Bavaria.
 
-The example prints all public holidays in Bavaria (Landkreis
+The following example prints all public holidays in Bavaria (Landkreis
 Miesbach, Oberbayern) in 2025:
 
+@
+import Prelude
+import Data.Time
+import Data.Time.Calendar.Holiday.Germany
+
+start = fromGregorian 2025 1 1
+
+end = fromGregorian 2025 12 31
+
+main :: IO ()
+main = putStrLn
+  $ unlines
+  $ map (\\(d,x) -> show d ++ " " ++ germanHolidayName x)
+  $ filter (\\(_,x) -> isFederalPublicHoliday Bayern x && x /= Friedensfest)
+  $ holidaysBetween start end
+@
 
 Resources:
 
-Extra holidays are implemented for all 16 federal states. For some
+Public holidays are implemented for all 16 federal states. For some
 states, we couldn't find official sources; That's why this list
 only includes some states.
 
@@ -83,7 +96,7 @@ module Data.Time.Calendar.Holiday.Germany (
 import Prelude
 import Data.Time.Calendar
 
--- | Data type specifying German bank holidays including Christmas Eve and New Year's Eve.
+-- | Data type specifying all German holidays.
 --
 -- Note: This type cannot be an instance of class 'Ord' because due to
 -- Easter day calculation the order can change from year to year.
@@ -193,12 +206,11 @@ toDay year Reformationstag          = fromGregorian year 10 31
 toDay year BussUndBettag           = calculateBussUndBettag year
 toDay year Weltkindertag           = fromGregorian year 9 20
 
--- | Compute 'Maybe' the holiday for a given date.
+-- | Compute list of holidays for a given date.
 --
 -- Note: In some years, two bank holidays can fall on the same
--- day. E.g. 'LabourDay' and 'AscensionDay' in 2008 are both on
--- 2008-05-01. In such cases this function returns the bank holiday
--- that is defined first in the 'BankHoliday' 'Enum'.
+-- day. E.g. 'ErsterMai' and 'ChristiHimmelfahrt' in 2008 are both on
+-- 2008-05-01.
 --
 -- >>> fromDay (fromGregorian 2024 1 1)
 -- [Neujahrstag]
@@ -243,8 +255,9 @@ germanHolidayName d = case d of
   BussUndBettag            -> "Buß- und Bettag"
   Weltkindertag            -> "Weltkindertag"
 
--- | True only for German public holidays aka legal holidays.
--- Christmas Eve and New Year's Eve are bank holidays but not public holidays.
+-- | True only for public holidays aka legal holidays that are
+-- holidays in all federal states.
+-- 'Heiligabend' and 'Silvestertag' are bank holidays but not public holidays.
 isGermanPublicHoliday :: Holiday -> Bool
 isGermanPublicHoliday Neujahrstag = True
 isGermanPublicHoliday Karfreitag = True
