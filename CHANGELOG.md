@@ -8,8 +8,16 @@ and this project adheres to the
 
 Breaking changes due to extensive refactoring!
 
+### Fixed
+
+- The Weltkindertag on September 20 is a public holiday in Thüringen
+  (since 2019). It was missing in this package until now.
+
 ### Changed
 
+- Changed `fromDay` to return a `[a]` instead of `Maybe a` because
+  there might be different holidays from different federal states on
+  the same day in future.
 - Combined modules `Data.Time.Calendar.BankHoliday.Germany`
   and `Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays`
   into `Data.Time.Calendar.Holiday.Germany`.
@@ -23,11 +31,6 @@ Breaking changes due to extensive refactoring!
 - Add extra holidays for all remaining federal states.
 - Update doc
 ## [1.2.0.0] - 2024-03-22
-
-### Fixed
-
-- The Weltkindertag on September 20 is a public holiday in Thüringen
-  (since 2019). It was missing in this package until now.
 
 ### Added
 
