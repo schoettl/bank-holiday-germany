@@ -4,15 +4,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to the
 [Haskell Package Versioning Policy](https://pvp.haskell.org/).
 
-## [1.0.0.0] - 2024-03-14
+## [2.0.0.0] - 2025-04-13
 
-Initial release
+Breaking changes due to extensive refactoring!
 
-## [1.0.0.1] - 2024-03-14
+### Changed
+
+- Combined modules `Data.Time.Calendar.BankHoliday.Germany`
+  and `Data.Time.Calendar.BankHoliday.Germany.ExtraHolidays`
+  into `Data.Time.Calendar.Holiday.Germany`.
+- Combined types `BankHoliday` and `ExtraHoliday` into new type `Holiday`.
+- Adapted all functions for new types.
+
+## [1.3.0.0] - 2024-04-01
 
 ### Added
 
-- Added version bounds of dependencies
+- Add extra holidays for all remaining federal states.
+- Update doc
+## [1.2.0.0] - 2024-03-22
+
+### Added
+
+- Add extra holidays for Baden-Württemberg, Nordrhein-Westfalen,
+  Hessen, and Niedersachsen
+- Update doc
+
+## [1.1.0.0] - 2024-03-19
+
+### Added
+
+- Add `ExtraHoliday` for Bundesland Berlin
+- Add and enhance docs
 
 ## [1.0.0.2] - 2024-03-18
 
@@ -23,24 +46,12 @@ Initial release
 - Add tests
 - Enhance docs
 
-## [1.1.0.0] - 2024-03-19
+## [1.0.0.1] - 2024-03-14
 
 ### Added
 
-- Add `ExtraHoliday` for Bundesland Berlin
-- Add and enhance docs
+- Added version bounds of dependencies
 
-## [1.2.0.0] - 2024-03-22
+## [1.0.0.0] - 2024-03-14
 
-### Added
-
-- Add extra holidays for Baden-Württemberg, Nordrhein-Westfalen,
-  Hessen, and Niedersachsen
-- Update doc
-
-## [1.3.0.0] - 2024-04-01
-
-### Added
-
-- Add extra holidays for all remaining federal states.
-- Update doc
+Initial release

@@ -66,7 +66,7 @@ only includes some states.
  - Bremen: https://www.transparenz.bremen.de/metainformationen/gesetz-ueber-die-sonn-gedenk-und-feiertage-vom-12-november-1954-145882?asl=bremen203_tpgesetz.c.55340.de&template=20_gp_ifg_meta_detail_d
 -}
 
-module Data.Time.Calendar.BankHoliday.Germany (
+module Data.Time.Calendar.Holiday.Germany (
     Holiday(..),
     FederalState(..),
     isBankHoliday,
