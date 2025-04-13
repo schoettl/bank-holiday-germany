@@ -202,12 +202,12 @@ toDay year Weltkindertag           = fromGregorian year 9 20
 -- that is defined first in the 'BankHoliday' 'Enum'.
 --
 -- >>> fromDay (fromGregorian 2024 1 1)
--- Just NewYearsDay
+-- [NewYearsDay]
 --
 -- >>> fromDay (fromGregorian 2024 5 5)
--- Nothing
-fromDay :: Day -> Maybe Holiday
-fromDay day = listToMaybe $ filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBound]
+-- []
+fromDay :: Day -> [Holiday]
+fromDay day = filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBound]
 
 -- | Compute pairs of date and holiday from start to end (inclusive).
 --
@@ -218,7 +218,7 @@ fromDay day = listToMaybe $ filter (\d -> day == toDay (yearFromDay day) d) [min
 -- >>> map snd $ holidaysBetween (fromGregorian 2024 12 25) (fromGregorian 2024 12 26)
 -- [ChristmasDay,SecondChristmasDay]
 holidaysBetween :: Day -> Day -> [(Day, Holiday)]
-holidaysBetween start end = catMaybes $ map (\d -> (d,) <$> fromDay d) [start..end]
+holidaysBetween start end = concat $ map (\d -> map (d,) $ fromDay d) [start..end]
 
 -- | Translate the holiday name to German.
 germanHolidayName :: Holiday -> String
