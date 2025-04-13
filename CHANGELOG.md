@@ -24,6 +24,11 @@ Breaking changes due to extensive refactoring!
 - Update doc
 ## [1.2.0.0] - 2024-03-22
 
+### Fixed
+
+- The Weltkindertag on September 20 is a public holiday in Thüringen
+  (since 2019). It was missing in this package until now.
+
 ### Added
 
 - Add extra holidays for Baden-Württemberg, Nordrhein-Westfalen,

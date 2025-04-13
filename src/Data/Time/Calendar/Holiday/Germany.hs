@@ -59,7 +59,7 @@ only includes some states.
  - Rheinland-Pfalz: https://mdi.rlp.de/themen/buerger-und-staat/verfassung-und-verwaltung/sonn-und-feiertagsrecht
  - Brandenburg: https://bravors.brandenburg.de/gesetze/ftg_2003/6
  - Sachsen-Anhalt: https://www.landesrecht.sachsen-anhalt.de/bsst/document/jlr-FeiertGSTrahmen/part/X
- - Thüringen: https://buerger.thueringen.de/detail?pstId=354718
+ - Thüringen: https://innen.thueringen.de/staats-und-verwaltungsrecht/oeffentliches-recht/feiertagsrecht
  - Hamburg: https://www.hamburg.de/ferien-und-feiertage/
  - Mecklenburg-Vorpommern u. Berlin (Frauentag): https://www.deutsche-rentenversicherung.de/DRV/DE/Ueber-uns-und-Presse/Presse/Meldungen/2024/240306_frauentag_feiertag_frei.html
  - Saarland: https://www.saarland.de/mibs/DE/themen-aufgaben/aufgaben/buerger_und_staat/sonn_u_feiertagsrecht/feiertagsrecht_node.html
@@ -108,6 +108,7 @@ data Holiday
     | Reformationstag        -- ^ Reformationstag (Niedersachsen, Sachsen, Schleswig-Holstein, Brandenburg, Sachsen-Anhalt, Thüringen, Hamburg, Mecklenburg-Vorpommern, Bremen)
     | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, Mecklenburg-Vorpommern)
     | BussUndBettag          -- ^ Buß- und Bettag (Sachsen)
+    | Weltkindertag          -- ^ Weltkindertag (Thüringen)
     deriving (Enum, Eq, Bounded, Show, Read)
 
 -- | Germany's federal states – Deutsche Bundesländer.
@@ -191,6 +192,7 @@ toDay year Allerheiligen           = fromGregorian year 11 1
 toDay year InternationalerFrauentag = fromGregorian year 3 8
 toDay year Reformationstag          = fromGregorian year 10 31
 toDay year BussUndBettag           = calculateBussUndBettag year
+toDay year Weltkindertag           = fromGregorian year 9 20
 
 -- | Compute 'Maybe' the holiday for a given date.
 --
@@ -240,6 +242,7 @@ germanHolidayName d = case d of
   Reformationstag          -> "Reformationstag"
   InternationalerFrauentag -> "Internationaler Frauentag"
   BussUndBettag            -> "Buß- und Bettag"
+  Weltkindertag            -> "Weltkindertag"
 
 -- | True only for German public holidays aka legal holidays.
 -- Christmas Eve and New Year's Eve are bank holidays but not public holidays.
@@ -291,6 +294,7 @@ isFederalPublicHoliday SachsenAnhalt HeiligeDreiKoenige = True
 isFederalPublicHoliday SachsenAnhalt Reformationstag = True
 isFederalPublicHoliday Thueringen Fronleichnam = True
 isFederalPublicHoliday Thueringen Reformationstag = True
+isFederalPublicHoliday Thueringen Weltkindertag = True
 isFederalPublicHoliday Hamburg Reformationstag = True
 isFederalPublicHoliday MecklenburgVorpommern Reformationstag = True
 isFederalPublicHoliday MecklenburgVorpommern InternationalerFrauentag = True
