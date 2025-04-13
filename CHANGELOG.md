@@ -44,3 +44,10 @@ Initial release
 
 - Add extra holidays for all remaining federal states.
 - Update doc
+
+
+## [1.3.1.0] - 2025-04-13
+
+### Fixed
+
+- Added missing Weltkindertag for Thüringen (September 20)

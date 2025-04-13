@@ -123,7 +123,7 @@ main = do
          (map snd $ EH.holidaysBetween SachsenAnhalt (jan1 y) (dec31 y)) === [HeiligeDreiKoenige, Reformationstag]
        it "has holidays for Thüringen" $ hedgehog $ do
          y <- forAll $ Gen.integral (Range.linear 2024 5000)
-         (map snd $ EH.holidaysBetween Thueringen (jan1 y) (dec31 y)) === [Fronleichnam, Reformationstag]
+         (map snd $ EH.holidaysBetween Thueringen (jan1 y) (dec31 y)) === [Fronleichnam, Weltkindertag, Reformationstag]
        it "has holidays for Hamburg" $ hedgehog $ do
          y <- forAll $ Gen.integral (Range.linear 2024 5000)
          (map snd $ EH.holidaysBetween Hamburg (jan1 y) (dec31 y)) === [Reformationstag]
