@@ -95,12 +95,12 @@ $ stack script --resolver=lts-22.0 --package time --package bank-holiday-germany
 14  Bayern
 12  BadenWuerttemberg
 12  Saarland
+12  Thueringen
 11  MecklenburgVorpommern
 11  NordrheinWestfalen
 11  RheinlandPfalz
 11  Sachsen
 11  SachsenAnhalt
-11  Thueringen
 10  Berlin
 10  Brandenburg
 10  Bremen

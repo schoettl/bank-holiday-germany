@@ -124,7 +124,7 @@ data ExtraHoliday
   | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern*, Saarland)
   | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland)
   | Reformationstag        -- ^ Reformationstag (Niedersachsen, Sachsen, Schleswig-Holstein, Brandenburg, Sachsen-Anhalt, Thüringen, Hamburg, Mecklenburg-Vorpommern, Bremen)
-  | Weltkindertag          -- ^ Weltkindertag
+  | Weltkindertag          -- ^ Weltkindertag (Thüringen)
   | InternationalerFrauentag -- ^ Internationaler Frauentag (Berlin, Mecklenburg-Vorpommern)
   | BussUndBettag          -- ^ Buß- und Bettag (Sachsen)
   deriving (Enum, Eq, Bounded, Show, Read)
