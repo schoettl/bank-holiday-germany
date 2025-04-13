@@ -103,7 +103,7 @@ data Holiday
     = Neujahrstag        -- ^ Neujahrstag
     | Karfreitag         -- ^ Karfreitag
     | Ostermontag        -- ^ Ostermontag
-    | ErsterMai          -- ^ 1. Mai - Tag der Arbeit
+    | ErsterMai          -- ^ Tag der Arbeit – 1. Mai
     | ChristiHimmelfahrt -- ^ Christi Himmelfahrt
     | Pfingstmontag      -- ^ Pfingstmontag
     | TagDerDeutschenEinheit -- ^ Tag der Deutschen Einheit
@@ -221,8 +221,8 @@ fromDay day = filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBoun
 
 -- | Compute pairs of date and holiday from start to end (inclusive).
 --
--- Note: In some years, two bank holidays can fall on the same
--- day. In such cases only one of them is in the resulting list.
+-- Note: In some years, two holidays can fall on the same
+-- day. In such cases both holidays will be in the resulting list.
 -- See 'fromDay' for more information.
 --
 -- >>> map snd $ holidaysBetween (fromGregorian 2024 12 25) (fromGregorian 2024 12 26)
@@ -254,9 +254,12 @@ germanHolidayName d = case d of
   BussUndBettag            -> "Buß- und Bettag"
   Weltkindertag            -> "Weltkindertag"
 
--- | True only for public holidays aka legal holidays that are
--- holidays in all federal states.
+-- | True only for public holidays that are holidays in all federal states.
 -- 'Heiligabend' and 'Silvestertag' are bank holidays but not public holidays.
+-- 'Allerheiligen' is only a holiday in some federal states bot not throughout Germany.
+--
+-- >>> isGermanPublicHoliday ErsterMai
+-- True
 isGermanPublicHoliday :: Holiday -> Bool
 isGermanPublicHoliday Neujahrstag = True
 isGermanPublicHoliday Karfreitag = True
