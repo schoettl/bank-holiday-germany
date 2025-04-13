@@ -82,24 +82,23 @@ module Data.Time.Calendar.Holiday.Germany (
 
 import Prelude
 import Data.Time.Calendar
-import Data.Maybe
 
 -- | Data type specifying German bank holidays including Christmas Eve and New Year's Eve.
 --
 -- Note: This type cannot be an instance of class 'Ord' because due to
 -- Easter day calculation the order can change from year to year.
 data Holiday
-    = NewYearsDay        -- ^ Neujahrstag
-    | GoodFriday         -- ^ Karfreitag
-    | EasterMonday       -- ^ Ostermontag
-    | LabourDay          -- ^ Tag der Arbeit
-    | AscensionDay       -- ^ Christi Himmelfahrt
-    | WhitMonday         -- ^ Pfingstmontag
-    | GermanUnityDay     -- ^ Tag der Deutschen Einheit
-    | ChristmasEve       -- ^ Heilig Abend
-    | ChristmasDay       -- ^ 1​. Weihnachtsfeiertag
-    | SecondChristmasDay -- ^ 2​. Weihnachtsfeiertag
-    | NewYearsEve        -- ^ Silvestertag
+    = Neujahrstag        -- ^ Neujahrstag
+    | Karfreitag         -- ^ Karfreitag
+    | Ostermontag        -- ^ Ostermontag
+    | ErsterMai          -- ^ 1. Mai - Tag der Arbeit
+    | ChristiHimmelfahrt -- ^ Christi Himmelfahrt
+    | Pfingstmontag      -- ^ Pfingstmontag
+    | TagDerDeutschenEinheit -- ^ Tag der Deutschen Einheit
+    | Heiligabend        -- ^ Heilig Abend
+    | ErsterWeihnachtsfeiertag  -- ^ 1​. Weihnachtsfeiertag
+    | ZweiterWeihnachtsfeiertag -- ^ 2​. Weihnachtsfeiertag
+    | Silvestertag           -- ^ Silvestertag
     | HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, Sachsen-Anhalt)
     | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, Rheinland-Pfalz, Thüringen*, Saarland)
     | Friedensfest           -- ^ Friedensfest (Bayern*)
@@ -133,11 +132,11 @@ data FederalState
 
 -- | Check if a given holiday is a bank holiday.
 --
--- >>> isBankHoliday ChristmasEve
+-- >>> isBankHoliday Heiligabend
 -- True
 isBankHoliday :: Holiday -> Bool
-isBankHoliday ChristmasEve = True
-isBankHoliday NewYearsEve = True
+isBankHoliday Heiligabend = True
+isBankHoliday Silvestertag = True
 isBankHoliday holiday = isGermanPublicHoliday holiday
 
 -- | Helper to extract the year from a date.
@@ -170,20 +169,20 @@ calculateEasterSunday year =
 
 -- | Compute the date for a given year and bank holiday.
 --
--- >>> toDay 2024 LabourDay
+-- >>> toDay 2024 ErsterMai
 -- 2024-05-01
 toDay :: Year -> Holiday -> Day
-toDay year NewYearsDay        = fromGregorian year 1 1
-toDay year GoodFriday         = addDays (-2) (calculateEasterSunday year)
-toDay year EasterMonday       = addDays 1 (calculateEasterSunday year)
-toDay year LabourDay          = fromGregorian year 5 1
-toDay year AscensionDay       = addDays 39 (calculateEasterSunday year)
-toDay year WhitMonday         = addDays 50 (calculateEasterSunday year)
-toDay year GermanUnityDay     = fromGregorian year 10 3
-toDay year ChristmasEve       = fromGregorian year 12 24
-toDay year ChristmasDay       = fromGregorian year 12 25
-toDay year SecondChristmasDay = fromGregorian year 12 26
-toDay year NewYearsEve        = fromGregorian year 12 31
+toDay year Neujahrstag        = fromGregorian year 1 1
+toDay year Karfreitag         = addDays (-2) (calculateEasterSunday year)
+toDay year Ostermontag        = addDays 1 (calculateEasterSunday year)
+toDay year ErsterMai          = fromGregorian year 5 1
+toDay year ChristiHimmelfahrt = addDays 39 (calculateEasterSunday year)
+toDay year Pfingstmontag      = addDays 50 (calculateEasterSunday year)
+toDay year TagDerDeutschenEinheit = fromGregorian year 10 3
+toDay year Heiligabend        = fromGregorian year 12 24
+toDay year ErsterWeihnachtsfeiertag  = fromGregorian year 12 25
+toDay year ZweiterWeihnachtsfeiertag = fromGregorian year 12 26
+toDay year Silvestertag            = fromGregorian year 12 31
 toDay year HeiligeDreiKoenige      = fromGregorian year 1 6
 toDay year Fronleichnam            = addDays 60 $ calculateEasterSunday year
 toDay year Friedensfest            = fromGregorian year 8 8
@@ -202,7 +201,7 @@ toDay year Weltkindertag           = fromGregorian year 9 20
 -- that is defined first in the 'BankHoliday' 'Enum'.
 --
 -- >>> fromDay (fromGregorian 2024 1 1)
--- [NewYearsDay]
+-- [Neujahrstag]
 --
 -- >>> fromDay (fromGregorian 2024 5 5)
 -- []
@@ -216,24 +215,24 @@ fromDay day = filter (\d -> day == toDay (yearFromDay day) d) [minBound..maxBoun
 -- See 'fromDay' for more information.
 --
 -- >>> map snd $ holidaysBetween (fromGregorian 2024 12 25) (fromGregorian 2024 12 26)
--- [ChristmasDay,SecondChristmasDay]
+-- [ErsterWeihnachtsfeiertag,ZweiterWeihnachtsfeiertag]
 holidaysBetween :: Day -> Day -> [(Day, Holiday)]
 holidaysBetween start end = concat $ map (\d -> map (d,) $ fromDay d) [start..end]
 
 -- | Translate the holiday name to German.
 germanHolidayName :: Holiday -> String
 germanHolidayName d = case d of
-  NewYearsDay        -> "Neujahrstag"
-  GoodFriday         -> "Karfreitag"
-  EasterMonday       -> "Ostermontag"
-  LabourDay          -> "Tag der Arbeit"
-  AscensionDay       -> "Christi Himmelfahrt"
-  WhitMonday         -> "Pfingstmontag"
-  GermanUnityDay     -> "Tag der Deutschen Einheit"
-  ChristmasEve       -> "Heilig Abend"
-  ChristmasDay       -> "1. Weihnachtsfeiertag"
-  SecondChristmasDay -> "2. Weihnachtsfeiertag"
-  NewYearsEve        -> "Silvestertag"
+  Neujahrstag        -> "Neujahrstag"
+  Karfreitag         -> "Karfreitag"
+  Ostermontag        -> "Ostermontag"
+  ErsterMai          -> "Tag der Arbeit"
+  ChristiHimmelfahrt -> "Christi Himmelfahrt"
+  Pfingstmontag      -> "Pfingstmontag"
+  TagDerDeutschenEinheit -> "Tag der Deutschen Einheit"
+  Heiligabend        -> "Heilig Abend"
+  ErsterWeihnachtsfeiertag  -> "1. Weihnachtsfeiertag"
+  ZweiterWeihnachtsfeiertag -> "2. Weihnachtsfeiertag"
+  Silvestertag           -> "Silvestertag"
   HeiligeDreiKoenige     -> "Heilige Drei Könige"
   Fronleichnam           -> "Fronleichnam"
   Friedensfest           -> "Friedensfest"
@@ -247,15 +246,15 @@ germanHolidayName d = case d of
 -- | True only for German public holidays aka legal holidays.
 -- Christmas Eve and New Year's Eve are bank holidays but not public holidays.
 isGermanPublicHoliday :: Holiday -> Bool
-isGermanPublicHoliday NewYearsDay = True
-isGermanPublicHoliday GoodFriday = True
-isGermanPublicHoliday EasterMonday = True
-isGermanPublicHoliday LabourDay = True
-isGermanPublicHoliday AscensionDay = True
-isGermanPublicHoliday WhitMonday = True
-isGermanPublicHoliday GermanUnityDay = True
-isGermanPublicHoliday ChristmasDay = True
-isGermanPublicHoliday SecondChristmasDay = True
+isGermanPublicHoliday Neujahrstag = True
+isGermanPublicHoliday Karfreitag = True
+isGermanPublicHoliday Ostermontag = True
+isGermanPublicHoliday ErsterMai = True
+isGermanPublicHoliday ChristiHimmelfahrt = True
+isGermanPublicHoliday Pfingstmontag = True
+isGermanPublicHoliday TagDerDeutschenEinheit = True
+isGermanPublicHoliday ErsterWeihnachtsfeiertag = True
+isGermanPublicHoliday ZweiterWeihnachtsfeiertag = True
 isGermanPublicHoliday _ = False
 
 -- | Check if 'Holiday' is a holiday in the given federal state.

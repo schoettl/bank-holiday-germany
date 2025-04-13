@@ -40,7 +40,7 @@ main = do
     describe "holidaysBetween" $ do
       it "works for Christmas" $
         holidaysBetween (day 2024 12 1) (day 2024 12 30)
-          `shouldBe` [(day 2024 12 24, ChristmasEve), (day 2024 12 25, ChristmasDay), (day 2024 12 26, SecondChristmasDay)]
+          `shouldBe` [(day 2024 12 24, Heiligabend), (day 2024 12 25, ErsterWeihnachtsfeiertag), (day 2024 12 26, ZweiterWeihnachtsfeiertag)]
       it "is empty list when there are no holidays" $
         holidaysBetween (day 2024 12 1) (day 2024 12 3)
           `shouldBe` []
@@ -56,7 +56,7 @@ main = do
         year (toDay y d) === y
       it "Easter Monday is always a Monday" $ hedgehog $ do
         y <- forAll $ Gen.integral (Range.linear 0 5000)
-        let (_, _, d) = toWeekDate $ toDay y EasterMonday
+        let (_, _, d) = toWeekDate $ toDay y Ostermontag
         d === 1     -- 1 = Monday
     describe "calculateEasterSunday" $ do
       it "is always between Mar 22 and Apr 25" $ hedgehog $ do
