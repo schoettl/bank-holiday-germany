@@ -117,7 +117,7 @@ main = do
         (federalHolidaysOnly RheinlandPfalz (jan1 y) (dec31 y)) === [Fronleichnam, Allerheiligen]
       it "has holidays for Sachsen" $ hedgehog $ do
         y <- forAll $ Gen.integral (Range.linear 2024 5000)
-        (federalHolidaysOnly Sachsen (jan1 y) (dec31 y)) === [Reformationstag, BussUndBettag]
+        (federalHolidaysOnly Sachsen (jan1 y) (dec31 y)) === [Fronleichnam, Reformationstag, BussUndBettag]
       it "has holidays for Schleswig-Holstein" $ hedgehog $ do
         y <- forAll $ Gen.integral (Range.linear 2024 5000)
         (federalHolidaysOnly SchleswigHolstein (jan1 y) (dec31 y)) === [Reformationstag]

@@ -70,6 +70,7 @@ only includes some states.
  - Hessen: https://innen.hessen.de/buerger-staat/feiertage
  - Rheinland-Pfalz: https://mdi.rlp.de/themen/buerger-und-staat/verfassung-und-verwaltung/sonn-und-feiertagsrecht
  - Brandenburg: https://bravors.brandenburg.de/gesetze/ftg_2003/6
+ - Sachsen: https://www.revosax.sachsen.de/vorschrift/3997-SaechsSFG
  - Sachsen-Anhalt: https://www.landesrecht.sachsen-anhalt.de/bsst/document/jlr-FeiertGSTrahmen/part/X
  - Thüringen: https://innen.thueringen.de/staats-und-verwaltungsrecht/oeffentliches-recht/feiertagsrecht
  - Hamburg: https://www.hamburg.de/ferien-und-feiertage/
@@ -112,7 +113,7 @@ data Holiday
     | ZweiterWeihnachtsfeiertag -- ^ 2​. Weihnachtsfeiertag
     | Silvestertag           -- ^ Silvestertag
     | HeiligeDreiKoenige     -- ^ Heilige Drei Könige (Bayern, Baden-Württemberg, Sachsen-Anhalt)
-    | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, Rheinland-Pfalz, Thüringen*, Saarland)
+    | Fronleichnam           -- ^ Fronleichnam (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen, Rheinland-Pfalz, Thüringen*, Saarland, Sachsen*)
     | Friedensfest           -- ^ Friedensfest (Bayern*)
     | MariaeHimmelfahrt      -- ^ Mariä Himmelfahrt (Bayern*, Saarland)
     | Allerheiligen          -- ^ Allerheiligen (Bayern, Baden-Württemberg, Nordrhein-Westfalen, Rheinland-Pfalz, Saarland)
@@ -300,6 +301,7 @@ isFederalPublicHoliday Niedersachsen Reformationstag = True
 isFederalPublicHoliday Hessen Fronleichnam = True
 isFederalPublicHoliday RheinlandPfalz Allerheiligen = True
 isFederalPublicHoliday RheinlandPfalz Fronleichnam = True
+isFederalPublicHoliday Sachsen Fronleichnam = True
 isFederalPublicHoliday Sachsen Reformationstag = True
 isFederalPublicHoliday Sachsen BussUndBettag = True
 isFederalPublicHoliday SchleswigHolstein Reformationstag = True
