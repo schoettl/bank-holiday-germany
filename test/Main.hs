@@ -23,6 +23,9 @@ dec31 y = fromGregorian y 12 31
 year :: Day -> Year
 year = (\(y, _, _) -> y) . toGregorian
 
+isSubsetOf :: Eq a => [a] -> [a] -> Bool
+isSubsetOf xs ys = all (\x -> x `elem` ys) xs
+
 holidaysBetween' :: FederalState -> Day -> Day -> [(Day, Holiday)]
 holidaysBetween' state x y = filter (isFederalPublicHoliday state . snd) $ holidaysBetween x y
 
@@ -75,6 +78,12 @@ main = do
       it "the only bank holidays that are no public holidays are Chrismas Eve and New Year's Eve" $
         length (filter (\x -> isBankHoliday x && not (isGermanPublicHoliday x)) [minBound..maxBound])
           `shouldBe` 2
+      it "holidays where isGermanPublicHoliday is true are public holidays in all federal states" $ hedgehog $ do
+        y <- forAll $ Gen.integral (Range.linear 0 5000)
+        let allHolidays = map snd $ holidaysBetween (fromGregorian y 1 1) (fromGregorian y 12 31)
+        let allStates = [minBound..maxBound] :: [FederalState]
+        all (\bundesland -> filter isGermanPublicHoliday allHolidays `isSubsetOf` filter (isFederalPublicHoliday bundesland) allHolidays) allStates
+           === True
     describe "yearFromDay" $ do
       it "works for any year" $ hedgehog $ do
         y <- forAll $ Gen.integral (Range.linear 0 5000)
@@ -155,3 +164,8 @@ main = do
     describe "germanHolidayName" $
       it "names are longer than 5 characters for all holidays (which mean there are no non-exhaustive patterns)" $
         all ((>5) . length . germanHolidayName) [minBound .. maxBound :: Holiday] `shouldBe` True
+    describe "isSubsetOf" $ do
+      it "is True for simple case" $
+        [1::Int] `isSubsetOf` [1,2] `shouldBe` True
+      it "is False for simple case" $
+        [3::Int] `isSubsetOf` [1,2] `shouldBe` False
