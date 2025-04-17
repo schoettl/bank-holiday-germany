@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to the
 [Haskell Package Versioning Policy](https://pvp.haskell.org/).
 
+## [2.0.1.0] - 2025-04-17
+
+### Fixed
+
+- Fronleichnam is a public holiday in some regions of Sachsen.
+  It was missing in this package until now.
+
 ## [2.0.0.0] - 2025-04-13
 
 Breaking changes due to extensive refactoring!

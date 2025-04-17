@@ -1,7 +1,7 @@
 cabal-version:       3.6
 
 name:                bank-holiday-germany
-version:             2.0.0.0
+version:             2.0.1.0
 synopsis:            German bank holidays and public holidays
 description:         Calculation of bank holidays and public holidays in Germany.
 homepage:            https://github.com/schoettl/bank-holiday-germany#readme
