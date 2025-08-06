@@ -116,7 +116,7 @@ or "Epiphany".
 
 Rank federal states by number of holidays:
 
-`test2.hs`:
+`test2.hs`: Number of holidays per federal state.
 
 ```haskell
 import Prelude
@@ -167,6 +167,44 @@ $ stack runghc --package time test2.hs
 10  Hessen
 10  Niedersachsen
 10  SchleswigHolstein
+```
+
+`test3.hs`: Number of holidays on week days.
+
+```haskell
+import Prelude
+import Data.List
+import Data.Time
+import Data.Holiday.Germany
+
+holidays :: Year -> FederalState -> [(Day, Holiday)]
+holidays year state = filter (isFederalPublicHoliday state . snd) $ holidaysBetween start end
+  where
+    start = fromGregorian year 1 1
+    end = fromGregorian year 12 31
+
+year :: Year
+year = 2025
+
+main :: IO ()
+main = putStrLn
+         $ unlines
+         $ map (\(x,n) -> show n ++ " " ++ show x)
+         $ map (\xs@(x:_) -> (x, length xs))
+         $ group
+         $ sort
+         $ map (dayOfWeek . fst)
+         $ filter (\(_,h) -> h /= Friedensfest)
+         $ holidays year Bayern
+```
+
+```
+$ stack runghc --package time test3.hs
+3 Monday
+1 Wednesday
+4 Thursday
+4 Friday
+1 Saturday
 ```
 
 More examples:
