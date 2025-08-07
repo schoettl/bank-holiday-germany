@@ -194,7 +194,7 @@ main = putStrLn
          $ group
          $ sort
          $ map (dayOfWeek . fst)
-         $ filter (\(_,h) -> h /= Friedensfest)
+         $ filter ((/=Friedensfest) . snd)
          $ holidays year Bayern
 ```
 
